@@ -1,0 +1,12 @@
+rootProject.name = 'autotax'
+
+include 'autotax-domain'
+include 'autotax-dao'
+include 'autotax-service'
+include 'autotax-service-impl'
+include 'autotax-integration'
+include 'autotax-integration-impl'
+include 'autotax-report'
+include 'autotax-infrastructure'
+include 'autotax-web'
+include 'autotax-test-starter'

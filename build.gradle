@@ -1,0 +1,126 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0' apply false
+    id 'io.spring.dependency-management' version '1.1.4' apply false
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'com.autotax'
+    version = '0.0.1-SNAPSHOT'
+
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        // Test dependencies will be managed by test-starter for most modules
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
+
+project(':autotax-domain') {
+    dependencies {
+        implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    }
+}
+
+project(':autotax-dao') {
+    dependencies {
+        implementation project(':autotax-domain')
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        runtimeOnly 'com.h2database:h2'
+    }
+}
+
+project(':autotax-service') {
+    dependencies {
+        implementation project(':autotax-domain')
+        implementation 'org.springframework.boot:spring-boot-starter'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation project(':autotax-dao') // Added for TaxRepository
+    }
+}
+
+project(':autotax-service-impl') {
+    dependencies {
+        implementation project(':autotax-service')
+        implementation project(':autotax-dao')
+        implementation project(':autotax-domain')
+        implementation project(':autotax-integration') // Service impl might use integration interfaces
+        implementation 'org.springframework.boot:spring-boot-starter'
+    }
+}
+
+project(':autotax-integration') {
+    dependencies {
+        implementation project(':autotax-domain')
+        // Add dependencies for integration interfaces (e.g., HTTP client interfaces)
+    }
+}
+
+project(':autotax-integration-impl') {
+    dependencies {
+        implementation project(':autotax-integration')
+        implementation project(':autotax-domain')
+        // Add dependencies for concrete integration implementations (e.g., actual HTTP client libraries)
+        implementation 'org.springframework.boot:spring-boot-starter-webflux' // Example for WebClient
+    }
+}
+
+project(':autotax-report') {
+    dependencies {
+        implementation project(':autotax-domain')
+        implementation project(':autotax-service') // Reports might need to fetch data via services
+        implementation 'org.springframework.boot:spring-boot-starter' // Added for @Service annotation
+        // Add reporting libraries here (e.g., iText, Apache POI)
+    }
+}
+
+project(':autotax-infrastructure') {
+    dependencies {
+        implementation project(':autotax-domain')
+        implementation project(':autotax-dao')
+        implementation project(':autotax-service')
+        implementation project(':autotax-service-impl')
+        implementation project(':autotax-integration')
+        implementation project(':autotax-integration-impl')
+        implementation project(':autotax-report')
+        // Add other infrastructure-specific dependencies here (e.g., common utilities, security configs)
+        implementation 'org.springframework.boot:spring-boot-starter'
+    }
+}
+
+project(':autotax-web') {
+    dependencies {
+        implementation project(':autotax-service')
+        implementation project(':autotax-service-impl')
+        implementation project(':autotax-integration') // Web might need integration DTOs
+        implementation project(':autotax-report') // Web might expose report endpoints
+        // Add controller-specific dependencies here (e.g., Spring Web)
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // Added for @EnableJpaRepositories
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+        implementation 'jakarta.inject:jakarta.inject-api:2.0.1'
+        annotationProcessor 'org.projectlombok:lombok'
+    }
+}
+
+project(':autotax-test-starter') {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-test'
+        implementation 'org.mockito:mockito-core'
+        // Add other common test dependencies here
+    }
+}
