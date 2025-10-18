@@ -1,4 +1,4 @@
-package com.autotax.web.controller;
+package com.autotax.controller;
 
 import com.autotax.dao.TaxDto;
 import com.autotax.service.TaxService;
