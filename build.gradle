@@ -1,5 +1,4 @@
 plugins {
-    id 'java'
     id 'org.springframework.boot' version '3.2.0' apply false
     id 'io.spring.dependency-management' version '1.1.4' apply false
 }
@@ -30,97 +29,194 @@ subprojects {
     }
 }
 
-project(':autotax-domain') {
+project(':domain') {
+    bootJar.enabled = false
     dependencies {
         implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
     }
 }
 
-project(':autotax-dao') {
+project(':dao') {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
     dependencies {
-        implementation project(':autotax-domain')
+        implementation project(':domain')
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-        runtimeOnly 'com.h2database:h2'
+        runtimeOnly 'org.postgresql:postgresql'
+        implementation 'org.flywaydb:flyway-core'
     }
 }
 
-project(':autotax-service') {
+project(':service') {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
     dependencies {
-        implementation project(':autotax-domain')
+        implementation project(':domain')
         implementation 'org.springframework.boot:spring-boot-starter'
         implementation 'org.springframework.boot:spring-boot-starter-validation'
-        implementation project(':autotax-dao') // Added for TaxRepository
+        implementation project(':dao') // Added for TaxRepository
     }
 }
 
-project(':autotax-service-impl') {
+project(':service-impl') {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
     dependencies {
-        implementation project(':autotax-service')
-        implementation project(':autotax-dao')
-        implementation project(':autotax-domain')
-        implementation project(':autotax-integration') // Service impl might use integration interfaces
+        implementation project(':service')
+        implementation project(':dao')
+        implementation project(':domain')
+        implementation project(':integration') // Service impl might use integration interfaces
         implementation 'org.springframework.boot:spring-boot-starter'
     }
 }
 
-project(':autotax-integration') {
+project(':integration') {
+    bootJar.enabled = false
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
     dependencies {
-        implementation project(':autotax-domain')
+        implementation project(':domain')
         // Add dependencies for integration interfaces (e.g., HTTP client interfaces)
     }
 }
 
-project(':autotax-integration-impl') {
+project(':integration-impl') {
+    bootJar.enabled = false
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
     dependencies {
-        implementation project(':autotax-integration')
-        implementation project(':autotax-domain')
+        implementation project(':integration')
+        implementation project(':domain')
         // Add dependencies for concrete integration implementations (e.g., actual HTTP client libraries)
         implementation 'org.springframework.boot:spring-boot-starter-webflux' // Example for WebClient
     }
 }
 
-project(':autotax-report') {
+project(':report') {
+    bootJar.enabled = false
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
     dependencies {
-        implementation project(':autotax-domain')
-        implementation project(':autotax-service') // Reports might need to fetch data via services
+        implementation project(':domain')
+        implementation project(':service') // Reports might need to fetch data via services
         implementation 'org.springframework.boot:spring-boot-starter' // Added for @Service annotation
         // Add reporting libraries here (e.g., iText, Apache POI)
     }
 }
 
-project(':autotax-infrastructure') {
+project(':infrastructure') {
+    bootJar.enabled = false
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
     dependencies {
-        implementation project(':autotax-domain')
-        implementation project(':autotax-dao')
-        implementation project(':autotax-service')
-        implementation project(':autotax-service-impl')
-        implementation project(':autotax-integration')
-        implementation project(':autotax-integration-impl')
-        implementation project(':autotax-report')
+        implementation project(':domain')
+        implementation project(':dao')
+        implementation project(':service')
+        implementation project(':service-impl')
+        implementation project(':integration')
+        implementation project(':integration-impl')
+        implementation project(':report')
         // Add other infrastructure-specific dependencies here (e.g., common utilities, security configs)
         implementation 'org.springframework.boot:spring-boot-starter'
     }
 }
 
-project(':autotax-web') {
+project(':web') {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
     dependencies {
-        implementation project(':autotax-service')
-        implementation project(':autotax-service-impl')
-        implementation project(':autotax-integration') // Web might need integration DTOs
-        implementation project(':autotax-report') // Web might expose report endpoints
+        implementation project(':domain') // Added direct dependency to domain
+        implementation project(':service')
+        implementation project(':service-impl')
+        implementation project(':integration') // Controller might need integration DTOs
+        implementation project(':report') // Controller might expose report endpoints
         // Add controller-specific dependencies here (e.g., Spring Web)
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // Added for @EnableJpaRepositories
         implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
         implementation 'jakarta.inject:jakarta.inject-api:2.0.1'
         annotationProcessor 'org.projectlombok:lombok'
+
+        // Added for Redis caching and sessions
+        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+        implementation 'org.springframework.session:spring-session-data-redis'
+
+        // Added for comprehensive security
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.security:spring-security-oauth2-resource-server'
+        implementation 'org.springframework.security:spring-security-oauth2-jose'
+        implementation 'org.springframework.security:spring-security-oauth2-client'
+        implementation 'com.h2database:h2'
+
+        // Production-grade additions
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     }
 }
 
-project(':autotax-test-starter') {
+project(':controller') {
+    bootJar.enabled = false
+}
+
+project(':test-starter') {
+    bootJar.enabled = false
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-test'
         implementation 'org.mockito:mockito-core'
+        // Added H2 for in-memory testing
+        runtimeOnly 'com.h2database:h2'
         // Add other common test dependencies here
     }
 }
+
+project(':dao') {
+    bootJar.enabled = false
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    dependencies {
+        implementation project(':domain')
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        runtimeOnly 'org.postgresql:postgresql'
+        implementation 'org.flywaydb:flyway-core'
+    }
+}
+
+project(':service') {
+    bootJar.enabled = false
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    dependencies {
+        implementation project(':domain')
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation project(':dao') // Added for TaxRepository
+    }
+}
+
+project(':service-impl') {
+    bootJar.enabled = false
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    dependencies {
+        implementation project(':service')
+        implementation project(':dao')
+        implementation project(':domain')
+        implementation project(':integration') // Service impl might use integration interfaces
+        implementation 'org.springframework.boot:spring-boot-starter'
+    }
+}
+

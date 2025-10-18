@@ -1,0 +1,6 @@
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.mockito:mockito-core'
+    runtimeOnly 'com.h2database:h2' // H2 for in-memory testing
+    // Add other common test dependencies here
+}

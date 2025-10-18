@@ -7,20 +7,20 @@ It follows a layered architecture with clear separation of concerns, making it e
 
 The project is organized into a multi-module Gradle build, inspired by the `customer-fulfillment-api` architecture:
 
--   **`autotax-domain`**: Contains core business logic, entities (e.g., `Tax`), and value objects. It defines the business domain, free from infrastructure concerns.
--   **`autotax-dao`**: Houses the Data Access Objects (DAOs), typically Spring Data JPA repositories (e.g., `TaxRepository`), for interacting with the database.
--   **`autotax-service`**: Defines service interfaces (e.g., `TaxService`) that declare the business operations. This module depends on the `domain` module.
--   **`autotax-service-impl`**: Provides the concrete implementations of the service interfaces defined in the `service` module (e.g., `TaxServiceImpl`). It depends on `service`, `dao`, and `domain` modules.
--   **`autotax-integration`**: Defines interfaces and contracts for interacting with external systems or services (e.g., `ExternalTaxService`). It depends on the `domain` module.
--   **`autotax-integration-impl`**: Contains the concrete implementations for the integration interfaces (e.g., `ExternalTaxServiceImpl`). It depends on `integration` and `domain` modules.
--   **`autotax-report`**: Dedicated to generating various reports (e.g., `TaxReportService`). It depends on `domain` and `service` modules to fetch data.
--   **`autotax-infrastructure`**: A module for broader infrastructure concerns, such as common configurations, security aspects, utility classes, or cross-cutting concerns. It can depend on `domain`, `dao`, `service`, `service-impl`, `integration`, `integration-impl`, and `report` as needed.
--   **`autotax-web`**: Exposes REST APIs using Spring Web. It contains controllers (e.g., `TaxController`) and Data Transfer Objects (DTOs). It primarily interacts with the `service` module (via its interface) and relies on Spring to inject the `service-impl` bean. It may also interact with `integration` and `report` modules.
--   **`autotax-test-starter`**: Aggregates common testing dependencies and configurations, ensuring a consistent testing setup across all modules.
+-   **`domain`**: Contains core business logic, entities (e.g., `Tax`), and value objects. It defines the business domain, free from infrastructure concerns.
+-   **`dao`**: Houses the Data Access Objects (DAOs), typically Spring Data JPA repositories (e.g., `TaxRepository`), for interacting with the database.
+-   **`service`**: Defines service interfaces (e.g., `TaxService`) that declare the business operations. This module depends on the `domain` module.
+-   **`service-impl`**: Provides the concrete implementations of the service interfaces defined in the `service` module (e.g., `TaxServiceImpl`). It depends on `service`, `dao`, and `domain` modules.
+-   **`integration`**: Defines interfaces and contracts for interacting with external systems or services (e.g., `ExternalTaxService`). It depends on the `domain` module.
+-   **`integration-impl`**: Contains the concrete implementations for the integration interfaces (e.g., `ExternalTaxServiceImpl`). It depends on `integration` and `domain` modules.
+-   **`report`**: Dedicated to generating various reports (e.g., `TaxReportService`). It depends on `domain` and `service` modules to fetch data.
+-   **`infrastructure`**: A module for broader infrastructure concerns, such as common configurations, security aspects, utility classes, or cross-cutting concerns. It can depend on `domain`, `dao`, `service`, `service-impl`, `integration`, `integration-impl`, and `report` as needed.
+-   **`web`**: Exposes REST APIs using Spring Web. It contains controllers (e.g., `TaxController`) and Data Transfer Objects (DTOs). It primarily interacts with the `service` module (via its interface) and relies on Spring to inject the `service-impl` bean. It may also interact with `integration` and `report` modules.
+-   **`test-starter`**: Aggregates common testing dependencies and configurations, ensuring a consistent testing setup across all modules.
 
 ## Technologies Used
 
--   **Java 17**
+-   **Java 21**
 -   **Spring Boot 3.2.0**
 -   **Gradle** (build tool)
 -   **Lombok** (to reduce boilerplate code)
@@ -56,10 +56,10 @@ The project is organized into a multi-module Gradle build, inspired by the `cust
 
 ### Run the Application
 
-After building, you can run the application from the `autotax-web` module:
+After building, you can run the application from the `web` module:
 
 ```bash
-.\gradlew.bat :autotax-web:bootRun
+.\gradlew.bat :web:bootRun
 ```
 
 The application will start on `http://localhost:8080`.
