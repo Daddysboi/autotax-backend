@@ -19,9 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @EnableJpaRepositories(basePackages = "com.autotax.dao")
 @EntityScan(basePackages = "com.autotax.domain")
 public class AutoTaxApplication extends SpringBootServletInitializer {
-
     public static void main(String[] args) {
-
         SpringApplication.run(com.autotax.web.AutoTaxApplication.class, args);
     }
 
@@ -38,14 +36,12 @@ public class AutoTaxApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-
         return application.sources(AutoTaxApplication.class);
     }
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-        JpaTransactionManager transactionManager
-                = new JpaTransactionManager();
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
         return transactionManager;
     }
