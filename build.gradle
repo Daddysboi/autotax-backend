@@ -185,9 +185,10 @@ project(':web') {
         implementation 'jakarta.inject:jakarta.inject-api:2.0.1'
         annotationProcessor 'org.projectlombok:lombok'
 
+        //TODO: Activate Redis
         // Added for Redis caching and sessions
-        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-        implementation 'org.springframework.session:spring-session-data-redis'
+        // implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+        // implementation 'org.springframework.session:spring-session-data-redis'
 
         // Added for comprehensive security
         implementation 'org.springframework.boot:spring-boot-starter-security'
