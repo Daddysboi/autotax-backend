@@ -4,7 +4,7 @@ plugins {
 }
 
 subprojects {
-    apply plugin: 'java'
+    apply plugin: 'java-library'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 
@@ -16,6 +16,19 @@ subprojects {
 
     repositories {
         mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            // Force a specific version of nimbus-jose-jwt to prevent classpath conflicts
+            force 'com.nimbusds:nimbus-jose-jwt:9.37'
+            eachDependency { DependencyResolveDetails details ->
+                if (details.requested.group == 'com.nimbusds' && details.requested.name == 'nimbus-jose-jwt') {
+                    details.useVersion '9.37'
+                }
+            }
+        }
     }
 
     dependencies {
@@ -32,23 +45,32 @@ subprojects {
 project(':domain') {
     bootJar.enabled = false
     dependencies {
-        implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+        api 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+        annotationProcessor 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+        implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
+        annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jakarta"
     }
 }
 
 project(':dao') {
+    bootJar.enabled = false
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     dependencies {
         implementation project(':domain')
+        // Use Spring Boot Starter Data JPA for better integration
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         runtimeOnly 'org.postgresql:postgresql'
         implementation 'org.flywaydb:flyway-core'
+        implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
+        annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jakarta" // Added for QueryDSL annotation processing
+        implementation 'com.nimbusds:nimbus-jose-jwt:9.37' // Explicitly added to dao module
     }
 }
 
 project(':service') {
+    bootJar.enabled = false
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
@@ -57,11 +79,13 @@ project(':service') {
         implementation 'org.springframework.boot:spring-boot-starter'
         implementation 'org.springframework.boot:spring-boot-starter-validation'
         implementation project(':dao') // Added for TaxRepository
+        implementation 'com.nimbusds:nimbus-jose-jwt:9.37' // Explicitly added to service module
     }
 }
 
 project(':service-impl') {
-    apply plugin: 'java'
+    bootJar.enabled = false
+    apply plugin: 'java-library'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     dependencies {
@@ -70,6 +94,10 @@ project(':service-impl') {
         implementation project(':domain')
         implementation project(':integration') // Service impl might use integration interfaces
         implementation 'org.springframework.boot:spring-boot-starter'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
+        implementation 'com.nimbusds:nimbus-jose-jwt:9.37' // Added for JWTServiceImpl
     }
 }
 
@@ -125,6 +153,15 @@ project(':infrastructure') {
         implementation project(':integration-impl')
         implementation project(':report')
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.hibernate:hibernate-core:6.3.1.Final'
+        implementation 'com.google.code.gson:gson'
+        implementation 'org.springframework.boot:spring-boot-autoconfigure'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'com.nimbusds:nimbus-jose-jwt:9.37'
+        implementation 'org.springframework.boot:spring-boot-starter-web' // Added for Servlet API
+        implementation 'org.apache.commons:commons-lang3:3.13.0' // Added for StringUtils
+        implementation project(':service') // Added dependency on the service module
+        implementation 'jakarta.inject:jakarta.inject-api:2.0.1' // Added for @Inject
         // Add other infrastructure-specific dependencies here (e.g., common utilities, security configs)
         implementation 'org.springframework.boot:spring-boot-starter'
     }
@@ -140,6 +177,7 @@ project(':web') {
         implementation project(':service-impl')
         implementation project(':integration') // Controller might need integration DTOs
         implementation project(':report') // Controller might expose report endpoints
+        implementation project(':infrastructure')
         // Add controller-specific dependencies here (e.g., Spring Web)
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // Added for @EnableJpaRepositories

@@ -1,9 +1,10 @@
 package com.autotax.infrastructure.configuration.security;
 
-import com.bw.cfs.auth.Scope;
-import com.bw.cfs.principal.RequestPrincipal;
-import com.bw.cfs.security.constraint.Scoped;
-import com.bw.integration.exception.ErrorResponse;
+import com.autotax.domain.principal.RequestPrincipal;
+import com.autotax.infrastructure.security.constraint.Scoped;
+import com.autotax.infrastructure.security.constraint.Scope;
+import com.autotax.integration.exception.ErrorResponse;
+import jakarta.inject.Inject; // Corrected import
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -11,7 +12,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
@@ -27,7 +27,7 @@ public class SecurityAspect {
     @Inject
     private RequestPrincipal requestPrincipal;
 
-    @Around("@annotation(com.bw.cfs.security.constraint.Scoped)")
+    @Around("@annotation(com.autotax.infrastructure.security.constraint.Scoped)")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
 //        if(!requestPrincipal.isAuthenticated()){
 //            if(Objects.isNull(requestPrincipal.getOrganizationMember())){

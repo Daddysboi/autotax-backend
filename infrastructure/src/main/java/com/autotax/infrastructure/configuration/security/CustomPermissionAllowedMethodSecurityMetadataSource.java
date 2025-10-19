@@ -1,6 +1,6 @@
 package com.autotax.infrastructure.configuration.security;
 
-import com.bw.cfs.security.constraint.Scoped;
+import com.autotax.infrastructure.security.constraint.Scoped;
 import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.security.access.method.AbstractFallbackMethodSecurityMetadataSource;
 import org.springframework.security.access.prepost.PostAuthorize;

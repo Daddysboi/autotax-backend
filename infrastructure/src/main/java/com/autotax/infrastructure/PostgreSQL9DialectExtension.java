@@ -1,6 +1,6 @@
-package com.autotax.infrastructure.configuration;
+package com.autotax.infrastructure;
 
-import org.hibernate.boot.model.FunctionContributions;
+import org.hibernate.boot.model.FunctionContributions;//hibernate core library
 import org.hibernate.boot.model.FunctionContributor;
 
 public class PostgreSQL9DialectExtension implements FunctionContributor {
