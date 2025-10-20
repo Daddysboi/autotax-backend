@@ -56,13 +56,12 @@ dependencies {
     // PDF Libraries
     implementation "com.itextpdf:itextpdf:5.5.13.3"
     implementation "org.apache.pdfbox:pdfbox:3.0.0-RC1"
-    implementation "com.itextpdf:html2pdf:4.0.3"
+    implementation "com.itextpdf:html2pdf:4.0.4"
     implementation "com.j2html:j2html:1.6.0"
     implementation "org.jfree:jfreechart:1.5.4"
 
     // Other
     implementation project(path: ':report') // Assuming this is another internal module
-    implementation fileTree(dir: "${project.rootDir}/data-model", include: ['*.jar']) // Keep if external JARs are needed
 
     // Springdoc OpenAPI UI
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion"
