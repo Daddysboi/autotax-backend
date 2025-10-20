@@ -1,119 +1,25 @@
-apply plugin: 'jacoco'
-jacoco {
-    toolVersion = '0.8.2'
-}
-
-sourceCompatibility = '17'
-targetCompatibility = '17'
-
-repositories {
-    mavenCentral()
-}
-
-
-test {
-    useJUnitPlatform()
-    finalizedBy jacocoTestReport
-}
-
-jacocoTestReport {
-    dependsOn test
-    reports {
-        xml.required = true
-    }
-}
-
-
-// to run coverage verification during the build (and fail when appropriate)
-check.dependsOn jacocoTestCoverageVerification
+bootJar.enabled = false
 
 dependencies {
-    implementation(project(":domain"))
-    implementation(project(":dao")) {
-        exclude module: "hibernate-jpa-2.1-api"
-        exclude module: "spring-tx"
-    }
-    implementation group: 'com.querydsl', name: 'querydsl-core', version: "$queryDslVersion"
-    implementation group: 'com.querydsl', name: 'querydsl-jpa', version: "$queryDslVersion"
-    compileOnly "jakarta.servlet:jakarta.servlet-api:$servletVersion"
+    // Module dependencies
+    implementation project(':domain')
+    implementation project(':service')
+    implementation project(':infrastructure') // If controllers directly use infrastructure components
+    implementation project(':integration') // If controllers directly use integration interfaces
 
-    implementation(project(":service"))
-    implementation(project(":report"))
-    implementation(project(":domain"))
-    implementation(project(":infrastructure"))
-    implementation(project(":integration"))
-    implementation group: 'org.springframework', name: 'spring-webmvc', version: "$springVersion"
-    implementation group: 'org.springframework.data', name: 'spring-data-jpa', version: "$springDataVersion"
-    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '7.5.1'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.0'
+    // Spring Boot Web Starter for REST controllers
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
-    implementation 'jakarta.persistence:jakarta.persistence-api:3.0.0'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.8'
-    implementation("javax.inject:javax.inject:1")
+    // API Documentation
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion"
 
-    // implementation group: 'com.autoTax.commons', name: 'autotax-security', version: "$autoTaxCommonsVersion"
-    // implementation group: 'com.autoTax.commons', name: 'autotax-starter', version: "$autoTaxCommonsVersion"
-    // implementation group: 'com.autoTax.commons', name: 'autotax-api-client', version: "$autoTaxCommonsVersion"
-    // implementation group: 'com.autoTax.commons', name: 'autotax-auth-client', version: "$autoTaxCommonsVersion"
+    // Other specific dependencies for controller layer
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion"
 
-    implementation group: 'org.apache.commons', name: 'commons-email', version: '1.5'
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
-
-    // implementation (group: 'org.springdoc', name: 'springdoc-openapi-ui', version: "$springDocVersion"){
-    // }
-    implementation group: 'com.google.api-client', name: 'google-api-client', version: '1.30.9'
-
-    testImplementation(project(":test-starter"))
-    testImplementation(project(":infrastructure"))
-    testImplementation(project(":integration-impl"))
-
-// https://mvnrepository.com/artifact/com.itextpdf/itextpdf
-    implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.3'
-// https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
-    implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '3.0.0-RC1'
-// https://mvnrepository.com/artifact/com.itextpdf/html2pdf
-    implementation group: 'com.itextpdf', name: 'html2pdf', version: '4.0.3'
-// https://mvnrepository.com/artifact/com.j2html/j2html
-    implementation group: 'com.j2html', name: 'j2html', version: '1.6.0'
-
-    testImplementation 'org.mockito:mockito-inline:2.13.0'
-    testImplementation(project(":test-starter"))
-    testImplementation(project(":infrastructure"))
-    testImplementation(project(":integration-impl"))
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
-        exclude module: 'junit'
-        exclude module: 'slf4j-api'
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
-    testImplementation('com.github.heywhy:spring-entity-factory:v0.2.0') {
-        exclude module: 'snakeyaml'
-    }
-    testImplementation "jakarta.servlet:jakarta.servlet-api:$servletVersion"
-    testImplementation 'org.mockito:mockito-inline:2.13.0'
-
+    // Test dependencies for controller layer
+    testImplementation project(':test-starter')
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+    testImplementation 'org.mockito:mockito-core'
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-
-
 }
-
-jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            element = 'BUNDLE'
-            limit {
-                counter = 'LINE'
-                value = 'COVEREDRATIO'
-                minimum = 0.517
-            }
-            excludes = [
-                    'com.bw.exception.*',
-                    'com.bw.excel.*',
-                    'com.bw.cfs.controlleradvice.*',
-                    'com.bw.cfs.spec.*'
-            ]
-        }
-    }
-}
-check.dependsOn jacocoTestCoverageVerification

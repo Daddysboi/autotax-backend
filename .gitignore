@@ -9,7 +9,6 @@
 build/
 /build/
 !gradle/wrapper/gradle-wrapper.jar
-!data-model/customer-fulfillment-dsl-1.0.jar
 
 node_modules/
 dist/

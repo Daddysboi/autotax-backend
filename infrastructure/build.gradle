@@ -1,0 +1,74 @@
+bootJar.enabled = false
+
+dependencies {
+    // Module dependencies
+    implementation project(':domain')
+    implementation project(':dao')
+    implementation project(':service')
+    implementation project(':service-impl')
+    implementation project(':integration')
+    implementation project(':integration-impl')
+    implementation project(':report')
+    
+
+    // Spring Boot Starters
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure' // Explicitly added if needed
+
+    // Persistence and QueryDSL
+    implementation 'org.hibernate:hibernate-core:6.3.1.Final' // Managed by Spring Boot
+    implementation "com.querydsl:querydsl-jpa:$queryDslVersion" // Use version from properties
+    // annotationProcessor "com.querydsl:querydsl-apt:$queryDslVersion:jakarta" // If needed for infrastructure
+
+    // Jakarta/Javax APIs (consider updating to Jakarta if not already)
+    implementation "jakarta.transaction:jakarta.transaction-api" // Managed by Spring Boot
+    implementation "jakarta.validation:jakarta.validation-api" // Managed by Spring Boot
+    implementation "jakarta.servlet:jakarta.servlet-api:$servletVersion" // Use version from properties
+    implementation "jakarta.inject:jakarta.inject-api:2.0.1" // Managed by Spring Boot
+
+    // Jackson for JSON/XML processing
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:$jacksonVersion"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion" // Use version from properties
+
+    // Retrofit for HTTP clients
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion" // Use version from properties
+    implementation "com.google.code.gson:gson" // Managed by Spring Boot or use version from properties
+
+    // Apache Commons Utilities
+    implementation "org.apache.commons:commons-lang3" // Managed by Spring Boot or use version from properties
+    implementation "commons-io:commons-io" // Managed by Spring Boot or use version from properties
+    implementation "org.apache.commons:commons-email:1.5" // Managed by Spring Boot or use version from properties
+
+    // Keycloak
+    implementation "org.keycloak:keycloak-admin-client:$keycloakVersion"
+    implementation "org.keycloak:keycloak-spring-boot-starter:$keycloakVersion"
+
+    // JWT
+    implementation "com.nimbusds:nimbus-jose-jwt" // Version forced in root build.gradle
+
+    // PDF Libraries
+    implementation "com.itextpdf:itextpdf:5.5.13.3"
+    implementation "org.apache.pdfbox:pdfbox:3.0.0-RC1"
+    implementation "com.itextpdf:html2pdf:4.0.3"
+    implementation "com.j2html:j2html:1.6.0"
+    implementation "org.jfree:jfreechart:1.5.4"
+
+    // Other
+    implementation project(path: ':report') // Assuming this is another internal module
+    implementation fileTree(dir: "${project.rootDir}/data-model", include: ['*.jar']) // Keep if external JARs are needed
+
+    // Springdoc OpenAPI UI
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion"
+
+    // Test dependencies
+    testImplementation project(":test-starter")
+    testRuntimeOnly project(":service-impl")
+    testRuntimeOnly project(":integration-impl")
+}

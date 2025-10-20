@@ -1,3 +1,5 @@
+bootJar.enabled = false
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.mockito:mockito-core'
