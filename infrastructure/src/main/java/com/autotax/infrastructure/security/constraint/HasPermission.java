@@ -1,7 +1,7 @@
 package com.autotax.infrastructure.security.constraint;
 
-import com.autotax.domain.PermissionTypeConstant;
-import com.autotax.domain.PortalAccountTypeConstant;
+import com.autotax.domain.constants.PermissionTypeConstant;
+import com.autotax.domain.constants.PortalAccountTypeConstant;
 import com.autotax.infrastructure.security.HasPermissionAccessManager;
 
 import java.lang.annotation.Documented;

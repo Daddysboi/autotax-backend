@@ -2,7 +2,7 @@ package com.autotax.dao;
 
 import com.autotax.domain.PortalAccountMemberRole;
 import com.autotax.domain.PortalUser;
-import com.autotax.domain.GenericStatusConstant;
+import com.autotax.domain.constants.GenericStatusConstant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 

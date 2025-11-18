@@ -1,5 +1,6 @@
 package com.autotax.domain;
 
+import com.autotax.domain.constants.GenericStatusConstant;
 import jakarta.persistence.*;
 import lombok.Data;
 

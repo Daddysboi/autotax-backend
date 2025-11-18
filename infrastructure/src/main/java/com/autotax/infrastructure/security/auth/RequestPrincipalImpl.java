@@ -2,7 +2,6 @@ package com.autotax.infrastructure.security.auth;
 
 import com.autotax.dao.AppRepository;
 import com.autotax.dao.PortalUserRepository;
-import com.autotax.domain.Platform;
 import com.autotax.domain.PortalAccount;
 import com.autotax.domain.PortalAccountTypeRole;
 import com.autotax.domain.PortalUser;
@@ -24,7 +23,6 @@ import java.security.Principal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Olaleye Afolabi <oafolabi@byteworks.com.ng>
@@ -136,7 +134,7 @@ public class RequestPrincipalImpl implements RequestPrincipal {
         }
         if (this.portalUser == null) {
             // TODO: Implement actual user retrieval from portalUserRepository
-            this.portalUser = portalUserRepository.findByUserId(getUserId()).orElse(null);
+            this.portalUser = portalUserRepository.findByUserId(getUserId());
         }
         return this.portalUser;
     }

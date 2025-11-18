@@ -1,6 +1,6 @@
 package com.autotax.domain.principal;
 
-import com.autotax.domain.Platform;
+import com.autotax.domain.constants.Platform;
 import com.autotax.domain.PortalAccount;
 import com.autotax.domain.PortalAccountTypeRole;
 import com.autotax.domain.PortalUser;

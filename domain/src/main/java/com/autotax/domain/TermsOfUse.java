@@ -1,26 +1,23 @@
 package com.autotax.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "terms_of_use")
+import java.time.LocalDateTime;
+
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class TermsOfUse extends StatusEntity {
-
+@Entity
+public class TermsOfUse {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String version;
-
-    @Lob // Use @Lob for potentially long text fields
-    @Column(name = "terms", nullable = false)
+    private String content;
+    private LocalDateTime effectiveDate;
     private String terms;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "portal_account_id", nullable = false) // Assuming a foreign key column named portal_account_id
+    @ManyToOne
+    @JoinColumn(name = "portal_account_id")
     private PortalAccount portalAccount;
+    protected LocalDateTime createdAt;
+
 }

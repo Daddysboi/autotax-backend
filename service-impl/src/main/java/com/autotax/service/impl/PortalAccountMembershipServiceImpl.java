@@ -2,7 +2,7 @@ package com.autotax.service.impl;
 
 import com.autotax.dao.AppRepository;
 import com.autotax.dao.PortalAccountMembershipRepository;
-import com.autotax.domain.GenericStatusConstant;
+import com.autotax.domain.constants.GenericStatusConstant;
 import com.autotax.domain.PortalAccount;
 import com.autotax.domain.PortalAccountMembership;
 import com.autotax.domain.PortalUser;

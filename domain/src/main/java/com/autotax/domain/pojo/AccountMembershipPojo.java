@@ -1,8 +1,8 @@
 package com.autotax.domain.pojo;
 
-import com.autotax.domain.PermissionTypeConstant;
+import com.autotax.domain.constants.PermissionTypeConstant;
 import com.autotax.domain.PortalAccount;
-import com.autotax.domain.PortalAccountTypeConstant;
+import com.autotax.domain.constants.PortalAccountTypeConstant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

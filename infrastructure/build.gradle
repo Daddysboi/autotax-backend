@@ -9,7 +9,6 @@ dependencies {
     implementation project(':integration')
     implementation project(':integration-impl')
     implementation project(':report')
-    
 
     // Spring Boot Starters
     implementation 'org.springframework.boot:spring-boot-starter'

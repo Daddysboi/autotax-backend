@@ -10,7 +10,7 @@ import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * @author Neme Iloeje niloeje@byteworks.com.ng
+ * @author Temitope temitopeahmedyusuf@gmail.com
  */
 @Target(ANNOTATION_TYPE)
 @Retention(RUNTIME)

@@ -1,12 +1,13 @@
 package com.autotax.domain.pojo;
 
+import com.autotax.domain.BaseEntity;
 import com.autotax.domain.TermsOfUse;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class TermsOfUsePojo {
+public class TermsOfUsePojo extends BaseEntity {
     private String termsOfUse;
     private Long id;
     private String version;

@@ -1,5 +1,6 @@
 package com.autotax.domain;
 
+import com.autotax.domain.constants.GenderConstant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

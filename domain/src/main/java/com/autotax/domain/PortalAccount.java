@@ -1,5 +1,6 @@
 package com.autotax.domain;
 
+import com.autotax.domain.constants.PortalAccountTypeConstant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

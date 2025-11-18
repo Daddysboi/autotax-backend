@@ -1,4 +1,4 @@
-package com.autotax.infrastructure.configuration;
+package com.autotax.domain.service;
 
 import lombok.Getter;
 import lombok.Setter;

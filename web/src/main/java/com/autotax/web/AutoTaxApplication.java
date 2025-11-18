@@ -1,9 +1,9 @@
 package com.autotax.web;
 
-import com.autotax.infrastructure.configuration.AppConfigurationProperties;
+import com.autotax.domain.service.AppConfigurationProperties;
+import com.autotax.domain.service.KeycloakConfigurationProperties;
 import com.autotax.infrastructure.configuration.AuditConfigurationProperties;
 import com.autotax.infrastructure.configuration.GitHubConfigurationProperties;
-import com.autotax.infrastructure.configuration.KeycloakConfigurationProperties;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

@@ -6,15 +6,14 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQuery;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * @author Olaleye Afolabi <oafolabi@byteworks.com.ng>
- */
+@Repository
 public interface AppRepository {
 
     <E> long count(Class<E> type);

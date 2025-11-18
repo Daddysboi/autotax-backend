@@ -1,6 +1,6 @@
 package com.autotax.service.impl;
 
-import com.autotax.dao.AppRepository;import com.autotax.dao.QueryResultTransformer;import com.autotax.domain.GenericStatusConstant;import com.querydsl.core.QueryModifiers;
+import com.autotax.dao.AppRepository;import com.autotax.dao.QueryResultTransformer;import com.autotax.domain.constants.GenericStatusConstant;import com.querydsl.core.QueryModifiers;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Order;

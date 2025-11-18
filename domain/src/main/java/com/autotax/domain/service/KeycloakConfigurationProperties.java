@@ -1,19 +1,12 @@
-package com.autotax.infrastructure.configuration;
+package com.autotax.domain.service;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-/**
- * @author Gibah Joseph
- * email: gibahjoe@gmail.com
- * Aug, 2020
- **/
-@Configuration
-@ConfigurationProperties(prefix = "app.keycloak")
-@Getter
-@Setter
+@Data
+@Component
+@ConfigurationProperties(prefix = "keycloak.frontend")
 public class KeycloakConfigurationProperties {
     /**
      * The username of the keycloak admin. This will be used for running admin commands

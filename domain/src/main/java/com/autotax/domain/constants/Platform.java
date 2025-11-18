@@ -1,4 +1,4 @@
-package com.autotax.domain;
+package com.autotax.domain.constants;
 
 public enum Platform {
     WEB,

@@ -1,5 +1,6 @@
 package com.autotax.domain;
 
+import com.autotax.domain.constants.GenericStatusConstant;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

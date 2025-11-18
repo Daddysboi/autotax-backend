@@ -1,6 +1,6 @@
 package com.autotax.dao;
 
-import com.autotax.domain.GenericStatusConstant;
+import com.autotax.domain.constants.GenericStatusConstant;
 import com.autotax.domain.PortalAccount;
 import com.autotax.domain.PortalAccountMembership;
 import com.autotax.domain.PortalUser;
